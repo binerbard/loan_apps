@@ -9,7 +9,7 @@ import (
 
 // NewDatabaseConnection create a new database connection
 func NewDatabaseConnection() *gorm.DB {
-	db, err := gorm.Open(mysql.Open(setting.DatabaseDNS), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(setting.DatabaseURL), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

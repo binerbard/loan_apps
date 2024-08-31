@@ -1,0 +1,6 @@
+Makefile
+relation.sql
+migrations/
+# golang dev
+*.mod
+*.sum

@@ -8,18 +8,52 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type AuthenticationHandler struct {
-	authUseCase usecase.UserUsecase
+type CustomerHandler struct {
+	customerUsecase usecase.CustomerUsecase
 }
 
-func NewAuthenticationHandler(uc usecase.UserUsecase) *AuthenticationHandler {
-	return &AuthenticationHandler{
-		authUseCase: uc,
+func NewCustomerHandler(uc usecase.CustomerUsecase) *CustomerHandler {
+	return &CustomerHandler{
+		customerUsecase: uc,
 	}
 }
 
-func (h *AuthenticationHandler) SignIn(ctx *fiber.Ctx) error {
-	var req schema.SignInReq
+
+func (h *CustomerHandler) Registration(ctx *fiber.Ctx) error {	
+	var req schema.CustomerReq
+
+	// Image Check
+	imageKTP, err := ctx.FormFile("img_ktp")
+	if err != nil {
+		ctx.Status(fiber.StatusBadRequest)
+		return utils.BadRequest(ctx, fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	ktpPath, err := utils.UploadImage(imageKTP)
+	if err != nil {
+		ctx.Status(fiber.StatusBadRequest)
+		return utils.BadRequest(ctx, fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	imageSelfie , err := ctx.FormFile("selfie")
+	if err != nil {
+		ctx.Status(fiber.StatusBadRequest)
+		return utils.BadRequest(ctx, fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	selfiePath, err := utils.UploadImage(imageSelfie)
+	if err != nil {
+		ctx.Status(fiber.StatusBadRequest)
+		return utils.BadRequest(ctx, fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
 	if err := ctx.BodyParser(&req); err != nil {
 		ctx.Status(fiber.StatusBadRequest)
@@ -28,14 +62,17 @@ func (h *AuthenticationHandler) SignIn(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if err := schema.ValidateSignInReq(&req); err != nil {
+	if err := schema.ValidatorCustomerReq(&req); err != nil {
 		ctx.Status(fiber.StatusBadRequest)
 		return utils.BadRequest(ctx, fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	if err := h.authUseCase.(&req); err != nil {
+	req.ImgSelfie = selfiePath
+	req.ImgID = ktpPath
+
+	if err := h.customerUsecase.Create(&req); err != nil {
 		ctx.Status(fiber.StatusBadRequest)
 		return utils.BadRequest(ctx, fiber.Map{
 			"message": err.Error(),
@@ -45,30 +82,4 @@ func (h *AuthenticationHandler) SignIn(ctx *fiber.Ctx) error {
 	return utils.Success(ctx, fiber.Map{
 		"message": "success",
 	})
-}
-
-
-func (h *AuthenticationHandler) SignUp(ctx *fiber.Ctx) error {
-	var req schema.SignUpReq
-
-	if err := ctx.BodyParser(&req); err != nil {
-		ctx.Status(fiber.StatusBadRequest)
-		return utils.BadRequest(ctx, fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	if err := schema.ValidateSignUpReq(&req); err != nil {
-		ctx.Status(fiber.StatusBadRequest)
-		return utils.BadRequest(ctx, fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	if err := h.authUseCase.CreateUser(&req); err != nil {
-		ctx.Status(fiber.StatusBadRequest)
-		return utils.BadRequest(ctx, fiber.Map{
-			"message": err.Error(),
-		})
-	}
 }
