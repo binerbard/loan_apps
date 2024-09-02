@@ -8,7 +8,7 @@ import (
 )
 
 type Transaction struct {
-	ID              string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"transaction_id" validate:"required,uuid"`
+	ID              string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"id" validate:"required,uuid"`
 	CustomerID      string         `gorm:"type:char(36);not null" json:"customer_id" validate:"required,uuid"`
 	ContractNumber  string         `gorm:"type:varchar(255);unique;not null" json:"contract_number" validate:"required"`
 	OTR             int            `gorm:"type:int;not null" json:"otr" validate:"required,gte=0"`

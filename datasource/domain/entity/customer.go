@@ -17,9 +17,9 @@ type Customer struct {
 	Salary     int            `gorm:"type:int;not null" json:"salary" validate:"required,gte=0"`
 	ImgID      string         `gorm:"type:varchar(255);not null" json:"img_ktp" validate:"required,url"`
 	ImgSelfie  string         `gorm:"type:varchar(255);not null" json:"selfie" validate:"required,url"`
-	CreatedAt  time.Time      `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt  time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt  gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	CreatedAt  time.Time      `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt  time.Time      `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt  *gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 }
 
 func ValidatorCustomer(customer *Customer) error {

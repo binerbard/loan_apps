@@ -8,7 +8,7 @@ import (
 )
 
 type Dealer struct {
-	ID         		string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"customers_id" validate:"required,uuid"`
+	ID         		string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"id" validate:"required,uuid"`
 	TransactionID      string			`gorm:"type:char(36);not null" json:"transaction_id" validate:"required,uuid"`
 	PartnerID      string			`gorm:"type:char(36);not null" json:"partner_id" validate:"required,uuid"`
 	CreatedAt  		time.Time      `gorm:"autoCreateTime" json:"created_at"`

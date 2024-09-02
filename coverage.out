@@ -1,0 +1,5 @@
+mode: set
+loan_apps/test/integration_testing/customer.go:18.56,22.2 3 0
+loan_apps/test/integration_testing/loan.go:12.44,16.2 3 0
+loan_apps/test/integration_testing/tenor.go:16.47,20.2 3 0
+loan_apps/test/integration_testing/transaction.go:17.65,21.2 3 0

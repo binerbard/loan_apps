@@ -34,7 +34,15 @@ func (s *TransactionServiceImpl) Create(credential *schema.TransactionReq) error
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
-	return s.transactionData.Save(&transaction)
+
+	dealer := entity.Dealer{
+		ID: uuid.New().String(),
+		TransactionID: transaction.ID,
+		PartnerID: credential.PartnerID,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	return s.transactionData.Save(&transaction, &dealer)
 
 }
 func (s *TransactionServiceImpl) Delete(id string) error {

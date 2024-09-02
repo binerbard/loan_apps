@@ -44,3 +44,7 @@ func(u *loanUsecase) FindByID(id string) (*entity.Loan, error){
 func (u *loanUsecase) List() ([]*entity.Loan, error){
 	return u.loanService.List()
 }
+
+func (u *loanUsecase) FindByCustomerID(id string) ([]*entity.Loan, error){
+	return u.loanService.FindByCustomerID(id)
+}

@@ -9,4 +9,6 @@ type TenorRepository interface {
 	Delete(id string) error
 	FindById(id string) (*entity.Tenor, error)
 	List() ([]*entity.Tenor, error)
+	FindByCustomerID(customer_id string) ([]*entity.Tenor, error)
+	AvailableInstalment(customer_id string, instalment_month int) (*entity.Tenor, error)
 }

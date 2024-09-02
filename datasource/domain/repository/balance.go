@@ -9,5 +9,6 @@ type BalanceRepository interface {
 	Update(balance *entity.Balance) (error)
 	Delete(id string) error
 	FindById(id string) (*entity.Balance, error)
+	FindByCustomerID(id string) (*entity.Balance, error)
 	List() ([]*entity.Balance, error)
 }

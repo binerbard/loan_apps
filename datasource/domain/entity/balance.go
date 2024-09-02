@@ -8,7 +8,7 @@ import (
 )
 
 type Balance struct {
-	ID        	string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"users_id" validate:"required,uuid"`
+	ID        	string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"id" validate:"required,uuid"`
 	CustomerID	string         `gorm:"type:char(36);not null" json:"customer_id" validate:"required,uuid"`
 	Balance 	int            `gorm:"type:int;not null" json:"balance" validate:"required,gte=0"`
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"created_at"`

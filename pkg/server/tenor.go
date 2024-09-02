@@ -16,7 +16,7 @@ func TenorServer(app *fiber.App) {
 	// TODO: implement
 	db := database.NewDatabaseConnection()
 	tenorRepo := repositories.NewTenorRepository(db)
-	tenorServer := services.NewtTenorService(tenorRepo)
+	tenorServer := services.NewTenorService(tenorRepo)
 	tenorUseCase := usecase.NewUTenorUsecase(tenorRepo,tenorServer)
 	tenorHandler := handler.NewTenorHandler(tenorUseCase)
 

@@ -54,8 +54,13 @@ func (s *CustomerServiceImpl) Update(id string, credential *schema.CustomerReq) 
 	customer.BirthDay = credential.BirthDay
 	customer.BirthPlace = credential.BirthPlace
 	customer.Salary = credential.Salary
-	customer.ImgID = credential.ImgID
-	customer.ImgSelfie = credential.ImgSelfie
+	if credential.ImgSelfie != "" {
+		customer.ImgSelfie = credential.ImgSelfie
+	}
+	if credential.ImgID != "" {
+		customer.ImgID = credential.ImgID
+	}
+
 	customer.UpdatedAt = time.Now()
 
 	return s.customerData.Update(customer)

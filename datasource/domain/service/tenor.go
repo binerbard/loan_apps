@@ -11,4 +11,5 @@ type TenorService interface {
 	Update(id string, credential *schema.TenorReq) error
 	FindByID(id string) (*entity.Tenor, error)
 	List() ([]*entity.Tenor, error)
+	FindByCustomerID(id string) ([]*entity.Tenor, error)
 }
