@@ -18,11 +18,17 @@ func NewLoanRepository(db *gorm.DB) repository.LoanRepository {
 
 
 
-func (r *LoanRepositoryImpl) Save(loan *entity.Loan) ( error){
-	if err := r.DB.Create(loan).Error ; err != nil {
+func (r *LoanRepositoryImpl) Save(loan *entity.Loan, balance *entity.Balance) ( error){
+	tx := r.DB.Begin()
+	if err := tx.Create(loan).Error; err != nil {
+		tx.Rollback()
 		return err
 	}
-	return nil
+	if err := tx.Create(balance).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit().Error
 }
 func (r *LoanRepositoryImpl) Update(loan *entity.Loan) (error){
 	if err := r.DB.Save(loan).Error; err != nil {
@@ -48,6 +54,14 @@ func (r *LoanRepositoryImpl) FindById(id string) (*entity.Loan, error) {
 func (r *LoanRepositoryImpl) List() ([]*entity.Loan, error){
 	var Loans []*entity.Loan
 	if err := r.DB.Find(&Loans).Error; err != nil {
+		return nil, err
+	}
+	return Loans, nil
+}
+
+func (r *LoanRepositoryImpl) FindByCustomerID(customer_id string) ([]*entity.Loan, error) {
+	var Loans []*entity.Loan
+	if err := r.DB.Where("customer_id = ?", customer_id).Find(&Loans).Error; err != nil {
 		return nil, err
 	}
 	return Loans, nil

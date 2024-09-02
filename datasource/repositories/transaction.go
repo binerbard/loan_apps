@@ -18,11 +18,19 @@ func NewTransactionRepository(db *gorm.DB) repository.TransactionRepository {
 
 
 
-func (r *TransactionRepositoryImpl) Save(transaction *entity.Transaction) ( error){
-	if err := r.DB.Create(transaction).Error ; err != nil {
+func (r *TransactionRepositoryImpl) Save(transaction *entity.Transaction, dealer *entity.Dealer) ( error){
+	tx := r.DB.Begin()
+	if err := tx.Create(transaction).Error; err != nil {
+		tx.Rollback()
 		return err
 	}
-	return nil
+
+	if err := tx.Create(dealer).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	
+	return tx.Commit().Error
 }
 func (r *TransactionRepositoryImpl) Update(transaction *entity.Transaction) (error){
 	if err := r.DB.Save(transaction).Error; err != nil {

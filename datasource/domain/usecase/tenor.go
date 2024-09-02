@@ -44,3 +44,7 @@ func(u *tenorUsecase) FindByID(id string) (*entity.Tenor, error){
 func (u *tenorUsecase) List() ([]*entity.Tenor, error){
 	return u.tenorService.List()
 }
+
+func (u *tenorUsecase) FindByCustomerID(id string) ([]*entity.Tenor, error){
+	return u.tenorService.FindByCustomerID(id)
+}

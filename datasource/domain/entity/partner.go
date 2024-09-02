@@ -10,8 +10,8 @@ import (
 
 
 type Partner struct {
-	ID         string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"customers_id" validate:"required,uuid"`
-	Name        string         `gorm:"type:varchar(16);unique;not null" json:"nik" validate:"required,numeric,len=16"`
+	ID         string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"id" validate:"required,uuid"`
+	Name        string         `gorm:"type:varchar(16);unique;not null" json:"nik" validate:"required"`
 	Contact   string         `gorm:"type:varchar(255);not null" json:"fullname" validate:"required"`
 	CreatedAt  time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt  time.Time      `gorm:"autoUpdateTime" json:"updated_at"`

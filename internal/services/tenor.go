@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"loan_apps/datasource/domain/entity"
 	"loan_apps/datasource/domain/repository"
 	"loan_apps/datasource/domain/schema"
@@ -15,13 +16,20 @@ type TenorServiceImpl struct {
 	tenorData repository.TenorRepository
 }
 
-func NewtTenorService(tenorRepository repository.TenorRepository) service.TenorService {
+func NewTenorService(tenorRepository repository.TenorRepository) service.TenorService {
 	return &TenorServiceImpl{
 		tenorData: tenorRepository,
 	}
 }
 
 func (s *TenorServiceImpl) Create(credential *schema.TenorReq) error {
+
+	availableInstalment,_ := s.tenorData.AvailableInstalment(credential.CustomerID, credential.InstalmentMonth)
+
+	if availableInstalment != nil {
+		return errors.New("instalment already exist, please do another instalment")
+	}
+
 	tenor := entity.Tenor{
 		ID: uuid.New().String(),
 		CustomerID: credential.CustomerID,
@@ -33,6 +41,7 @@ func (s *TenorServiceImpl) Create(credential *schema.TenorReq) error {
 	return s.tenorData.Save(&tenor)
 
 }
+
 func (s *TenorServiceImpl) Delete(id string) error {
 	return s.tenorData.Delete(id)
 }
@@ -56,4 +65,8 @@ func (s *TenorServiceImpl) FindByID(id string) (*entity.Tenor, error) {
 
 func (s *TenorServiceImpl) List() ([]*entity.Tenor, error){
 	return s.tenorData.List()
+}
+
+func (s *TenorServiceImpl) FindByCustomerID(id string) ([]*entity.Tenor, error){
+	return s.tenorData.FindByCustomerID(id)
 }

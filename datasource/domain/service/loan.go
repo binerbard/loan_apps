@@ -11,4 +11,5 @@ type LoanService interface {
 	Update(id string, credential *schema.LoanReq) error
 	FindByID(id string) (*entity.Loan, error)
 	List() ([]*entity.Loan, error)
+	FindByCustomerID(id string) ([]*entity.Loan, error)
 }

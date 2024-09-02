@@ -8,7 +8,7 @@ import (
 )
 
 type Loan struct {
-	ID         		string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"customers_id" validate:"required,uuid"`
+	ID         		string         `gorm:"type:char(36);primaryKey;default:uuid()" json:"id" validate:"required,uuid"`
 	CustomerID      string         `gorm:"type:char(36);not null" json:"customer_id" validate:"required,uuid"`
 	Amount     		int            `gorm:"type:int;not null" json:"amount" validate:"required,gte=0"`
 	InstalmentMonth	int            `gorm:"type:int;not null" json:"instalment_month" validate:"required,gte=0"`

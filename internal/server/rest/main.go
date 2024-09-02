@@ -14,5 +14,6 @@ func Main(){
 	server.TenorServer(app)
 	server.LoanServer(app)
 	server.TransactionServer(app)
+	server.BalanceServer(app)
 	app.Listen(":3000")
 }

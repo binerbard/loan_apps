@@ -76,7 +76,7 @@ var APIPathPrefix = "/" + GetConfig().APIPrefix + "/" + GetConfig().APIVersion +
 var APILisen = GetConfig().AppHost + ":" + GetConfig().AppPort
 
 // DatabaseURL : Database URL
-var DatabaseURL = GetConfig().DBUser + ":" + GetConfig().DBPassword + "@tcp(" + GetConfig().DBHost + ":" + GetConfig().DBPort + ")/" + GetConfig().DBDatabase
+var DatabaseURL = GetConfig().DBUser + ":" + GetConfig().DBPassword + "@tcp(" + GetConfig().DBHost + ":" + GetConfig().DBPort + ")/" + GetConfig().DBDatabase + "?parseTime=true"
 
 // DatabaseDNS : Database DNS
 var DatabaseDNS = "host=" + GetConfig().DBHost + " user=" + GetConfig().DBUser + " dbname=" + GetConfig().DBDatabase + " password=" + GetConfig().DBPassword + " port=" + GetConfig().DBPort + " sslmode=disable"

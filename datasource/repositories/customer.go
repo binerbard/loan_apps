@@ -16,8 +16,6 @@ func NewCustomerRepository(db *gorm.DB) repository.CustomerRepository {
 	return &CustomerRepositoryImpl{DB: db}
 }
 
-
-
 func (r *CustomerRepositoryImpl) Save(customer *entity.Customer) ( error){
 	if err := r.DB.Create(customer).Error ; err != nil {
 		return err

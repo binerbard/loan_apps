@@ -52,3 +52,20 @@ func (r *TenorRepositoryImpl) List() ([]*entity.Tenor, error){
 	}
 	return Tenors, nil
 }
+
+func (r *TenorRepositoryImpl) FindByCustomerID(id string) ([]*entity.Tenor, error) {
+	var Tenors []*entity.Tenor
+	if err := r.DB.Where("customer_id = ?", id).Find(&Tenors).Error; err != nil {
+		return nil, err
+	}
+	return Tenors, nil
+}
+
+func (r *TenorRepositoryImpl) AvailableInstalment(customer_id string, instalment_month int) (*entity.Tenor, error) {
+
+	Tenor := &entity.Tenor{}
+	if err := r.DB.Where("customer_id = ? AND instalment_month = ?", customer_id, instalment_month).First(Tenor).Error; err != nil {
+		return nil, err
+	}
+	return Tenor, nil
+}

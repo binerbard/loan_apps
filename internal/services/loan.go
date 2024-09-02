@@ -30,6 +30,14 @@ func (s *LoanServiceImpl) Create(credential *schema.LoanReq) error {
 		return err
 	}
 
+	balance := entity.Balance{
+		ID: uuid.New().String(),
+		CustomerID: credential.CustomerID,
+		Balance: acceptTenor.Amount,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
 	loan := entity.Loan{
 		ID: uuid.New().String(),
 		CustomerID: credential.CustomerID,
@@ -39,7 +47,7 @@ func (s *LoanServiceImpl) Create(credential *schema.LoanReq) error {
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
-	return s.loanData.Save(&loan)
+	return s.loanData.Save(&loan, &balance)
 
 }
 func (s *LoanServiceImpl) Delete(id string) error {
@@ -71,4 +79,8 @@ func (s *LoanServiceImpl) FindByID(id string) (*entity.Loan, error) {
 
 func (s *LoanServiceImpl) List() ([]*entity.Loan, error){
 	return s.loanData.List()
+}
+
+func (s *LoanServiceImpl) FindByCustomerID(customer_id string) ([]*entity.Loan, error){
+	return s.loanData.FindByCustomerID(customer_id)
 }

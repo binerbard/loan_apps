@@ -9,11 +9,21 @@ import (
 // RouterAuthList list of all customer routes
 var RouterCustomerList map[string]string = map[string]string{
 	"main":"/customer",
-	"register":"/register",
+	"store":"/store",
+	"update":"/update/:id",
+	"delete":"/delete/:id",
+	"find":"/find/:id",
+	"list":"/list",
+	"show":"/show/:filename",
 }
 
 
 func RegisterCustomerRoutes(r fiber.Router, handler *handler.CustomerHandler) {
 	router := r.Group(RouterCustomerList["main"])
-	router.Post(RouterCustomerList["register"], handler.Registration)
+	router.Post(RouterCustomerList["store"], handler.Store)
+	router.Get(RouterCustomerList["show"],handler.ShowImage)
+	router.Put(RouterCustomerList["update"], handler.Update)
+	router.Delete(RouterCustomerList["delete"], handler.Delete)
+	router.Get(RouterCustomerList["list"], handler.List)
+	router.Get(RouterCustomerList["find"], handler.Find)
 }
