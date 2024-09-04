@@ -14,5 +14,5 @@ func Main(){
 	server.TenorServer(app)
 	server.LoanServer(app)
 	server.TransactionServer(app)
-	app.Listen(":3000")
+	app.Listen(":"+setting.GetConfig().AppPort)
 }
