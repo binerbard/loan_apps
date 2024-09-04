@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"loan_apps/config/setting"
 	"loan_apps/pkg/server"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,5 +16,5 @@ func Main(){
 	server.LoanServer(app)
 	server.TransactionServer(app)
 	server.BalanceServer(app)
-	app.Listen(":3000")
+	app.Listen(":"+setting.GetConfig().AppPort)
 }
